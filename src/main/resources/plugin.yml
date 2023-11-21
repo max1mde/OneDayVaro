@@ -1,0 +1,9 @@
+name: OneDayVaro
+version: '${version}'
+main: com.maximde.onedayvaro.OneDayVaro
+api-version: 1.20
+
+commands:
+  pause:
+  start:
+  resume:
