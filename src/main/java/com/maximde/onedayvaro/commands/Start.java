@@ -29,10 +29,12 @@ public record Start(OneDayVaro oneDayVaro) implements CommandExecutor {
         Bukkit.broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "DAS VARO EVENT HAT BEGONNEN!");
         for(Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1F, 1F);
-            player.sendMessage(ChatColor.RED + "Renn um dein Leben!");
+            player.sendTitle(ChatColor.RED + "Renn um dein Leben!", "",  10, 50, 10);
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 60, 255));
         }
         if(sender instanceof Player player) {
+            player.getWorld().getWorldBorder().setCenter(player.getLocation().getX(), player.getLocation().getZ());
+            player.getWorld().getWorldBorder().setSize(1000, 5);
             player.getWorld().setTime(0);
             player.getWorld().setStorm(false);
             player.getWorld().setHardcore(true);

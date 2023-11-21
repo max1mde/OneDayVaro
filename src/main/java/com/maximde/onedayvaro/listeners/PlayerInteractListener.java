@@ -11,17 +11,17 @@ public record PlayerInteractListener(OneDayVaro oneDayVaro) implements Listener 
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if(!event.getPlayer().isOp() && oneDayVaro.isPaused()) event.setCancelled(true);
+        if(oneDayVaro.isPaused()) event.setCancelled(true);
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if(!event.getPlayer().isOp() && oneDayVaro.isPaused()) event.setCancelled(true);
+        if(oneDayVaro.isPaused()) event.setCancelled(true);
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if(!event.getPlayer().isOp() && oneDayVaro.isPaused()) event.setCancelled(true);
+        if( oneDayVaro.isPaused()) event.setCancelled(true);
     }
 
 }
