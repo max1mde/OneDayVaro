@@ -38,15 +38,28 @@ public record Start(OneDayVaro oneDayVaro) implements CommandExecutor {
             all.playSound(all.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1F, 1F);
             all.sendTitle(ChatColor.RED + "Renn um dein Leben!", "",  10, 50, 10);
             all.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 60, 255));
+            all.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 20 * 60, 255));
         }
 
         player.getWorld().getWorldBorder().setCenter(player.getLocation().getX(), player.getLocation().getZ());
-        player.getWorld().getWorldBorder().setSize(1000, 5);
+        player.getWorld().getWorldBorder().setSize(1500, 5);
         player.getWorld().setTime(0);
         player.getWorld().setStorm(false);
         player.getWorld().setHardcore(true);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(oneDayVaro, this::giveCompass, (20L * 60) * 60);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(oneDayVaro, this::sendTitleFinal, minutes(1));
+        Bukkit.getScheduler().runTaskLaterAsynchronously(oneDayVaro, this::giveCompass, minutes(60));
         return false;
+    }
+
+    private void sendTitleFinal() {
+        for(Player all : Bukkit.getOnlinePlayers()) {
+            all.playSound(all.getLocation(), Sound.EVENT_RAID_HORN, 1F, 1F);
+            all.sendTitle(ChatColor.RED + "Achtung", "Die Schutzzeit ist zuende!",  10, 50, 10);
+        }
+    }
+
+    private int minutes(int minutes) {
+        return (20 * 60) * minutes;
     }
 
     private void giveCompass() {
@@ -54,7 +67,9 @@ public record Start(OneDayVaro oneDayVaro) implements CommandExecutor {
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             var item = new ItemStack(Material.COMPASS);
-            item.getItemMeta().setDisplayName(ChatColor.RED + "Compass");
+            var itemMeta = item.getItemMeta();
+            itemMeta.setDisplayName(ChatColor.RED + "Compass");
+            item.setItemMeta(itemMeta);
             player.getInventory().addItem(item);
         }
 
@@ -70,7 +85,8 @@ public record Start(OneDayVaro oneDayVaro) implements CommandExecutor {
 
     private void updateCompass() {
         for(Player player : Bukkit.getOnlinePlayers()) {
-            player.setCompassTarget(getNearest(player).getLocation());
+            var target = getNearest(player);
+            if(target != null) player.setCompassTarget(target.getLocation());
         }
     }
 
