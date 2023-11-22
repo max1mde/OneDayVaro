@@ -3,10 +3,7 @@ package com.maximde.onedayvaro;
 import com.maximde.onedayvaro.commands.Pause;
 import com.maximde.onedayvaro.commands.Resume;
 import com.maximde.onedayvaro.commands.Start;
-import com.maximde.onedayvaro.listeners.EntityDamageListener;
-import com.maximde.onedayvaro.listeners.PlayerInteractListener;
-import com.maximde.onedayvaro.listeners.PlayerJoinListener;
-import com.maximde.onedayvaro.listeners.PlayerMoveListener;
+import com.maximde.onedayvaro.listeners.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,6 +28,7 @@ public final class OneDayVaro extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
     }
 
 }
