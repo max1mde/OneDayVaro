@@ -16,23 +16,25 @@ public record PlayerDeathListener(OneDayVaro oneDayVaro) implements Listener {
         if(event.getEntity().getWorld().getWorldBorder().getSize() > 50) {
             event.getEntity().getWorld().getWorldBorder().setSize(event.getEntity().getWorld().getWorldBorder().getSize() - 50, 10);
         }
-        if(!oneDayVaro.isPaused()) {
-            int size = 0;
-            Player finalP = null;
-            for(Player player : Bukkit.getOnlinePlayers()) {
-                if(player.getGameMode() == GameMode.SURVIVAL) {
-                    size++;
-                    finalP = player;
-                }
-            }
-            if(size == 1) {
-                oneDayVaro.setPaused(true);
-                Bukkit.broadcastMessage(ChatColor.GOLD + finalP.getName() + " hat das varo event gewonnen! " + ChatColor.MAGIC + "mmm");
-                for(Player all : Bukkit.getOnlinePlayers()) {
-                    all.playSound(all.getLocation(), Sound.EVENT_RAID_HORN, 1F, 1F);
-                    all.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + finalP.getName(), ChatColor.GOLD + "Ist der Gewinner!",  10, 100, 10);
-                }
+        event.getEntity().setGameMode(GameMode.SPECTATOR);
+        if(oneDayVaro.isPaused()) return;
+        int size = 0;
+        Player finalP = null;
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(player.getGameMode() == GameMode.SURVIVAL) {
+                size++;
+                finalP = player;
             }
         }
+        if(size == 1) {
+            oneDayVaro.setPaused(true);
+            Bukkit.broadcastMessage(ChatColor.GOLD + finalP.getName() + " hat das varo event gewonnen! " + ChatColor.MAGIC + "mmm");
+            for(Player all : Bukkit.getOnlinePlayers()) {
+                all.playSound(all.getLocation(), Sound.EVENT_RAID_HORN, 1F, 1F);
+                all.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + finalP.getName(), ChatColor.GOLD + "Ist der Gewinner!",  10, 100, 10);
+            }
+            return;
+        }
+        event.getEntity().kickPlayer(ChatColor.RED + "Du bist gestorben und damit raus aus diesem Event!\n \n" + ChatColor.GOLD + "" + ChatColor.BOLD + "Dein Platz: #" + size + 1 + "\n \n" + ChatColor.DARK_PURPLE + "Wenn du zuschauen willst gehe auf twitch.com/yPeat");
     }
 }

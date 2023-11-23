@@ -32,7 +32,7 @@ public record Start(OneDayVaro oneDayVaro) implements CommandExecutor {
         }
 
         oneDayVaro.setPaused(false);
-        Bukkit.broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "DAS VARO EVENT HAT BEGONNEN!");
+        Bukkit.broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "DAS VARO EVENT HAT BEGONNEN! " + ChatColor.MAGIC + "kkk");
         Bukkit.broadcastMessage(ChatColor.RED + "=================== Wichtig! ===================");
         Bukkit.broadcastMessage(ChatColor.RED + "1. Du hast eine Schutzzeit von 5 Minuten");
         Bukkit.broadcastMessage(ChatColor.RED + "2. Verlasse den Server NICHT ansonsten bist du raus");

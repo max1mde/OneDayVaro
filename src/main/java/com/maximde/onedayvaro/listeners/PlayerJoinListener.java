@@ -13,8 +13,7 @@ public record PlayerJoinListener(OneDayVaro oneDayVaro) implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         if(!oneDayVaro.isPaused()) {
-            event.getPlayer().setGameMode(GameMode.SPECTATOR);
-            event.getPlayer().sendMessage(ChatColor.RED + "Du bist nun ein Zuschauer!");
+            event.getPlayer().kickPlayer(ChatColor.RED + "Das Varo event hat schon begonnen!" + "\n \n" + ChatColor.DARK_PURPLE + "Wenn du zuschauen willst gehe auf twitch.com/yPeat");
         }
     }
 }
