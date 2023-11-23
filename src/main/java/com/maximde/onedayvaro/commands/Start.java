@@ -33,12 +33,16 @@ public record Start(OneDayVaro oneDayVaro) implements CommandExecutor {
 
         oneDayVaro.setPaused(false);
         Bukkit.broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "DAS VARO EVENT HAT BEGONNEN!");
-
+        Bukkit.broadcastMessage(ChatColor.RED + "=================== Wichtig! ===================");
+        Bukkit.broadcastMessage(ChatColor.RED + "1. Du hast eine Schutzzeit von 5 Minuten");
+        Bukkit.broadcastMessage(ChatColor.RED + "2. Verlasse den Server NICHT ansonsten bist du raus");
+        Bukkit.broadcastMessage(ChatColor.RED + "3. Wenn du stirbst bist du raus!");
+        Bukkit.broadcastMessage(ChatColor.RED + "=================== Wichtig! ===================");
         for(Player all : Bukkit.getOnlinePlayers()) {
-            all.playSound(all.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1F, 1F);
-            all.sendTitle(ChatColor.RED + "Renn um dein Leben!", "",  10, 50, 10);
-            all.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 60, 255));
-            all.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 20 * 60, 255));
+            all.playSound(all.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+            all.sendTitle(ChatColor.GREEN + "Renn!", ChatColor.GREEN + "Es geht los ⚔️",  10, 50, 10);
+            all.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, minutes(5), 255));
+            all.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, minutes(5), 255));
         }
 
         player.getWorld().getWorldBorder().setCenter(player.getLocation().getX(), player.getLocation().getZ());
@@ -46,7 +50,7 @@ public record Start(OneDayVaro oneDayVaro) implements CommandExecutor {
         player.getWorld().setTime(0);
         player.getWorld().setStorm(false);
         player.getWorld().setHardcore(true);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(oneDayVaro, this::sendTitleFinal, minutes(1));
+        Bukkit.getScheduler().runTaskLaterAsynchronously(oneDayVaro, this::sendTitleFinal, minutes(5));
         Bukkit.getScheduler().runTaskLaterAsynchronously(oneDayVaro, this::giveCompass, minutes(60));
         return false;
     }
@@ -54,7 +58,7 @@ public record Start(OneDayVaro oneDayVaro) implements CommandExecutor {
     private void sendTitleFinal() {
         for(Player all : Bukkit.getOnlinePlayers()) {
             all.playSound(all.getLocation(), Sound.EVENT_RAID_HORN, 1F, 1F);
-            all.sendTitle(ChatColor.RED + "Achtung", "Die Schutzzeit ist zuende!",  10, 50, 10);
+            all.sendTitle(ChatColor.RED + "Achtung!", ChatColor.RED + "Die Schutzzeit ist zuende!",  10, 50, 10);
         }
     }
 
@@ -63,7 +67,7 @@ public record Start(OneDayVaro oneDayVaro) implements CommandExecutor {
     }
 
     private void giveCompass() {
-        Bukkit.broadcastMessage(ChatColor.GOLD + "1h has passed and everyone got a compass!");
+        Bukkit.broadcastMessage(ChatColor.GOLD + "Eine Stunde ist vorbei! Jeder hat einen Kompass bekommen");
 
         for(Player player : Bukkit.getOnlinePlayers()) {
             var item = new ItemStack(Material.COMPASS);
